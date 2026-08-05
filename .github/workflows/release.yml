@@ -1,0 +1,24 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: 构建并发布 Linux 二进制
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: 构建 release
+        run: cargo build --release --locked
+      - name: 重命名二进制(带平台标识,免解压)
+        run: cp target/release/calc-tui calc-tui-x86_64-unknown-linux-gnu
+      - name: 发布二进制到 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: calc-tui-x86_64-unknown-linux-gnu
