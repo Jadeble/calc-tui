@@ -57,8 +57,11 @@ jobs:
         shell: bash
         run: |
           BIN="target/${{ matrix.target }}/release/calc-tui"
-          [ -f "$BIN.exe" ] && BIN="$BIN.exe"
-          cp "$BIN" "calc-tui-${{ matrix.name }}"
+          if [ -f "$BIN.exe" ]; then
+            cp "$BIN.exe" "calc-tui-${{ matrix.name }}.exe"
+          else
+            cp "$BIN" "calc-tui-${{ matrix.name }}"
+          fi
 
       - name: 发布二进制到 Release
         uses: softprops/action-gh-release@v2
