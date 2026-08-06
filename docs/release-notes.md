@@ -28,14 +28,22 @@
 
 ## 安装
 
-下载 `calc-tui-x86_64-unknown-linux-gnu`(裸二进制,直接可运行,无需解压):
+从 Releases 下载对应平台的裸二进制(直接可运行,无需解压):
+
+| 平台 | 文件名 |
+|---|---|
+| Linux x86_64(静态链接,不依赖 glibc) | `calc-tui-x86_64-linux-musl` |
+| Linux ARM64(静态链接) | `calc-tui-aarch64-linux-musl` |
+| macOS Apple Silicon | `calc-tui-aarch64-macos` |
+| macOS Intel | `calc-tui-x86_64-macos` |
+| Windows x86_64 | `calc-tui-x86_64-windows.exe` |
+
+Linux 产物使用 musl 静态编译,不依赖系统 glibc 版本,在旧版本 Linux 系统上也可直接运行:
 
 ```bash
-chmod +x calc-tui-x86_64-unknown-linux-gnu
-./calc-tui-x86_64-unknown-linux-gnu
+chmod +x calc-tui-x86_64-linux-musl
+./calc-tui-x86_64-linux-musl
 ```
-
-macOS / Windows 用户请克隆源码后自行 `cargo build --release`。
 
 ## 发布信息
 

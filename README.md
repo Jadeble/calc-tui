@@ -16,16 +16,24 @@
 
 ## 安装
 
-### 方式一:下载 Release 二进制(Linux)
+### 方式一:下载 Release 二进制
 
-从 [Releases](https://github.com/Jadeble/calc-tui/releases) 下载 `calc-tui-x86_64-unknown-linux-gnu`(直接可运行,无需解压):
+从 [Releases](https://github.com/Jadeble/calc-tui/releases) 下载对应平台的裸二进制(直接可运行,无需解压):
+
+| 平台 | 文件名 |
+|---|---|
+| Linux x86_64(静态链接,不依赖 glibc) | `calc-tui-x86_64-linux-musl` |
+| Linux ARM64(静态链接) | `calc-tui-aarch64-linux-musl` |
+| macOS Apple Silicon | `calc-tui-aarch64-macos` |
+| macOS Intel | `calc-tui-x86_64-macos` |
+| Windows x86_64 | `calc-tui-x86_64-windows.exe` |
+
+Linux 产物使用 musl 静态编译,不依赖系统 glibc 版本,在各类 Linux 发行版(含旧版本系统)均可直接运行:
 
 ```bash
-chmod +x calc-tui-x86_64-unknown-linux-gnu
-./calc-tui-x86_64-unknown-linux-gnu
+chmod +x calc-tui-x86_64-linux-musl
+./calc-tui-x86_64-linux-musl
 ```
-
-> macOS / Windows 用户请自行构建(见下),本仓库的 Release 仅提供 Linux 产物。
 
 ### 方式二:源码构建
 

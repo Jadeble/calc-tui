@@ -334,3 +334,94 @@ fn draw_settings_overlay(f: &mut Frame, app: &App) {
 fn _char_width(c: char) -> u16 {
     UnicodeWidthChar::width(c).unwrap_or(0) as u16
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::app::App;
+    use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+    use ratatui::backend::TestBackend;
+
+    fn key(code: KeyCode) -> KeyEvent {
+        KeyEvent::new(code, KeyModifiers::NONE)
+    }
+
+    /// 用 TestBackend(无需真实终端)渲染 80x24 界面, 按行返回文本。
+    /// 中文字符在 buffer 中占 2 列, 跳过其占用的后续列, 重建视觉文本。
+    fn render(app: &App) -> Vec<String> {
+        let backend = TestBackend::new(80, 24);
+        let mut terminal = ratatui::Terminal::new(backend).expect("创建测试终端失败");
+        terminal.draw(|f| draw(f, app)).expect("渲染失败");
+        let buf = terminal.backend().buffer();
+        let mut lines = Vec::new();
+        for y in 0..buf.area.height {
+            let mut s = String::new();
+            let mut x = 0;
+            while x < buf.area.width {
+                let sym = buf[(x, y)].symbol();
+                s.push_str(sym);
+                x += UnicodeWidthStr::width(sym).max(1) as u16;
+            }
+            lines.push(s);
+        }
+        lines
+    }
+
+    fn any_line(lines: &[String], needle: &str) -> bool {
+        lines.iter().any(|l| l.contains(needle))
+    }
+
+    #[test]
+    fn main_screen_layout() {
+        let mut app = App::new();
+        app.combos = crate::config::default_combos();
+        let lines = render(&app);
+        assert!(any_line(&lines, "计算器 Calculator"));
+        assert!(any_line(&lines, "[RAD 弧度]"));
+        assert!(any_line(&lines, "表达式"));
+        assert!(any_line(&lines, "结果"));
+        assert!(any_line(&lines, "历史"));
+        assert!(any_line(&lines, "帮助 / 公式输入"));
+        assert!(any_line(&lines, "输入表达式后按 Enter 计算"));
+        assert!(any_line(&lines, "暂无记录"));
+        assert!(any_line(&lines, "Enter 计算"), "底部状态栏应显示按键提示");
+    }
+
+    #[test]
+    fn evaluate_shows_result_and_history() {
+        let mut app = App::new();
+        app.combos = crate::config::default_combos();
+        for c in "2+3".chars() {
+            app.handle_key(key(KeyCode::Char(c)));
+        }
+        assert!(any_line(&render(&app), "2+3"), "未计算时应显示输入内容");
+        app.handle_key(key(KeyCode::Enter));
+        let lines = render(&app);
+        assert!(any_line(&lines, "= 5"), "结果区应显示 = 5, 实际: {lines:?}");
+        assert!(
+            any_line(&lines, "2+3 = 5"),
+            "历史区应显示 2+3 = 5, 实际: {lines:?}"
+        );
+    }
+
+    #[test]
+    fn tab_toggle_shows_degree_badge() {
+        let mut app = App::new();
+        app.combos = crate::config::default_combos();
+        app.handle_key(key(KeyCode::Tab));
+        assert!(any_line(&render(&app), "[DEG 角度]"));
+    }
+
+    #[test]
+    fn settings_overlay_renders_combos() {
+        let mut app = App::new();
+        app.combos = crate::config::default_combos();
+        app.handle_key(key(KeyCode::F(2)));
+        let lines = render(&app);
+        assert!(any_line(&lines, "组合按键设置"));
+        assert!(any_line(&lines, "\\p"), "设置列表应显示组合按键 \\p");
+        assert!(any_line(&lines, "π"), "设置列表应显示插入内容 π");
+        assert!(any_line(&lines, "Σ("), "设置列表应显示插入内容 Σ(");
+        assert!(any_line(&lines, "↑/↓ 选择"), "应显示设置界面按键提示");
+    }
+}

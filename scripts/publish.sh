@@ -10,7 +10,7 @@
 #   1. 构建 release 二进制(本地验证)
 #   2. 写入 Cargo.toml 的 repository 字段
 #   3. 提交并推送源码到 GitHub(仓库中只放源码, target/ 已被忽略)
-#   4. 打 v0.1.0 标签推送, 触发 .github/workflows/release.yml 自动构建 Linux 二进制并发布到 Releases
+#   4. 打 v0.1.0 标签推送, 触发 .github/workflows/release.yml 自动构建多平台二进制(musl 静态/Windows/macOS)并发布到 Releases
 set -euo pipefail
 
 USER="${1:?用法: ./scripts/publish.sh <GitHub用户名> [仓库名]}"
@@ -50,5 +50,5 @@ git push origin "${TAG}"
 
 echo "==> 6/6 完成"
 echo "   仓库:  ${URL}"
-echo "   Release 将在 GitHub Actions 完成后自动生成(约 2~3 分钟): ${URL}/releases"
-echo "   产物: calc-tui-x86_64-unknown-linux-gnu (直接可运行,无需解压)"
+echo "   Release 将在 GitHub Actions 完成后自动生成(约 3~5 分钟): ${URL}/releases"
+echo "   产物: 5 个平台二进制 (Linux musl 静态 x2 / Windows / macOS x2), 详见 README"
