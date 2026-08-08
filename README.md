@@ -1,7 +1,8 @@
 # calc-tui — 终端科学计算器
 
-目标是把 Windows 自带计算器的完整体验带到 Linux 终端:一个运行在终端中的 TUI 科学计算器,
-启动后显示完整的计算器界面,左侧为表达式输入、结果与历史记录,右侧为帮助面板与组合按键说明。
+一个运行在终端中的 TUI 科学计算器,
+启动后显示完整的计算器界面,左侧为表达式输入、结果与历史记录,ctrl+h可打开右侧帮助面板与组合按键说明。
+![](./picture/calc.png)
 
 > 版本 v0.2.3  ·  发布者 JADE  ·  2026.08.08  ·  [更新日志](CHANGELOG.md)
 
@@ -24,8 +25,8 @@
 
 | 平台 | 文件名 |
 |---|---|
-| Linux x86_64(静态链接,不依赖 glibc) | `calc-tui-x86_64-linux-musl` |
-| Linux ARM64(静态链接) | `calc-tui-aarch64-linux-musl` |
+| Linux x86_64 | `calc-tui-x86_64-linux-musl` |
+| Linux ARM64 | `calc-tui-aarch64-linux-musl` |
 
 Linux 产物使用 musl 静态编译,不依赖系统 glibc 版本,在各类 Linux 发行版(含旧版本系统)均可直接运行:
 
@@ -65,8 +66,7 @@ cargo build --release
 |---|---|---|---|
 | `\p` | π | `\d` | deriv( |
 | `\s` | Σ( | `\r` | √( |
-| `\i` | ∫( | `\x` | × |
-| `\v` | ÷ | `\e` | e |
+| `\i` | ∫( | `\e` | e |
 
 按 `F2` 可编辑/添加/删除组合按键,修改后自动保存到 `~/.config/calc-tui/config.json`。
 预设组合(π/Σ/∫/deriv/√/φ,因键盘无法直接键入)标注"固定",可修改按键但不能删除。

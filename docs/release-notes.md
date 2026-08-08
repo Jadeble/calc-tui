@@ -1,8 +1,7 @@
 # calc-tui v0.2.3 — 终端科学计算器(Linux 版)
 
-目标: 把 Windows 自带计算器的完整体验搬到 Linux 终端。
 基于 Rust + ratatui 的 TUI 科学计算器,启动即显示完整计算器界面:
-左侧为表达式输入、结果与历史记录,右侧为帮助面板与组合按键说明。
+左侧为表达式输入、结果与历史记录,ctrl+h打开右侧的帮助面板与组合按键说明。
 
 > 自本版本起,项目仅构建并发布 Linux 平台(musl 静态编译),不再发布 Windows / macOS 版本。
 
@@ -28,8 +27,8 @@
 
 | 平台 | 文件名 |
 |---|---|
-| Linux x86_64(静态链接,不依赖 glibc) | `calc-tui-x86_64-linux-musl` |
-| Linux ARM64(静态链接) | `calc-tui-aarch64-linux-musl` |
+| Linux x86_64 | `calc-tui-x86_64-linux-musl` |
+| Linux ARM64 | `calc-tui-aarch64-linux-musl` |
 
 Linux 产物使用 musl 静态编译,不依赖系统 glibc 版本,在各类 Linux 发行版(含旧版本系统)均可直接运行:
 
