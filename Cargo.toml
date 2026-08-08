@@ -1,6 +1,6 @@
 [package]
 name = "calc-tui"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2024"
 description = "终端科学计算器: 实数/复数运算、自定义函数、级数求和、瑕积分与求导"
 repository = "https://github.com/Jadeble/calc-tui"
