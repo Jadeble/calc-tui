@@ -1,9 +1,9 @@
 # calc-tui — 终端科学计算器
 
-一个运行在终端中的 TUI 科学计算器。启动后显示一个完整的计算器界面:
-左侧为表达式输入、结果与历史记录,右侧为帮助面板与组合按键说明。
+目标是把 Windows 自带计算器的完整体验带到 Linux 终端:一个运行在终端中的 TUI 科学计算器,
+启动后显示完整的计算器界面,左侧为表达式输入、结果与历史记录,右侧为帮助面板与组合按键说明。
 
-> 版本 v0.2.1  ·  发布者 JADE  ·  2026.08.08  ·  [更新日志](CHANGELOG.md)
+> 版本 v0.2.3  ·  发布者 JADE  ·  2026.08.08  ·  [更新日志](CHANGELOG.md)
 
 ## 功能特性
 
@@ -20,15 +20,12 @@
 
 ### 方式一:下载 Release 二进制
 
-从 [Releases](https://github.com/Jadeble/calc-tui/releases) 下载对应平台的裸二进制(直接可运行,无需解压):
+从 [Releases](https://github.com/Jadeble/calc-tui/releases) 下载对应架构的裸二进制(直接可运行,无需解压):
 
 | 平台 | 文件名 |
 |---|---|
 | Linux x86_64(静态链接,不依赖 glibc) | `calc-tui-x86_64-linux-musl` |
 | Linux ARM64(静态链接) | `calc-tui-aarch64-linux-musl` |
-| macOS Apple Silicon | `calc-tui-aarch64-macos` |
-| macOS Intel | `calc-tui-x86_64-macos` |
-| Windows x86_64 | `calc-tui-x86_64-windows.exe` |
 
 Linux 产物使用 musl 静态编译,不依赖系统 glibc 版本,在各类 Linux 发行版(含旧版本系统)均可直接运行:
 

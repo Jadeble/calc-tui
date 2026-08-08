@@ -1,5 +1,15 @@
 # 更新日志
 
+## v0.2.3 (2026-08-08)
+
+### 变更:仅发布 Linux 平台
+
+- 项目定位为"把 Windows 自带计算器搬到 Linux 终端",Windows/macOS 用户更倾向 GUI 而非 TUI
+- 取消 Windows / macOS 的构建与发布,仅构建并发布 Linux 两个架构(musl 静态编译,任意发行版直接运行):
+  - `calc-tui-x86_64-linux-musl`(x86_64)
+  - `calc-tui-aarch64-linux-musl`(ARM64)
+- 保留 v0.2.1/v0.2.2 修复:Windows 静态链接 CRT 的配置随平台移除一并清理
+
 ## v0.2.2 (2026-08-08)
 
 ### 修复:Windows 版无法启动

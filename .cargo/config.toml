@@ -1,3 +1,0 @@
-[target.x86_64-pc-windows-msvc]
-# 静态链接 MSVC CRT(VCRUNTIME140/msvcp140),免安装 VC++ 运行库即可直接运行
-rustflags = ["-C", "target-feature=+crt-static"]

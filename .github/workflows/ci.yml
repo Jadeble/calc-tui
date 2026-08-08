@@ -23,12 +23,8 @@ jobs:
         run: cargo build --release --target x86_64-unknown-linux-musl
 
   test:
-    name: 测试 (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: 测试
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
