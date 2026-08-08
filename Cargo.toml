@@ -1,8 +1,8 @@
 [package]
 name = "calc-tui"
-version = "0.1.0"
+version = "0.2.1"
 edition = "2024"
-description = "终端 TUI 科学计算器: 三角函数/对数/阶乘/求和Σ/定积分/求导, 支持角度与弧度切换, 组合按键输入符号"
+description = "终端科学计算器: 实数/复数运算、自定义函数、级数求和、瑕积分与求导"
 repository = "https://github.com/Jadeble/calc-tui"
 license = "MIT OR Apache-2.0"
 keywords = ["calculator", "tui", "cli", "math", "terminal"]
@@ -11,7 +11,6 @@ categories = ["command-line-utilities", "mathematics"]
 [dependencies]
 ratatui = "0.29"
 crossterm = "0.28"
-meval = "0.2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 unicode-width = "0.2"

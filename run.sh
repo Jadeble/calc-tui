@@ -9,6 +9,9 @@ BIN="$DIR/target/release/calc-tui"
 if [[ ! -x "$BIN" ]]; then
     echo "首次运行,正在构建 (cargo build --release)..."
     cargo build --release --manifest-path "$DIR/Cargo.toml"
+elif [[ -f "$DIR/Cargo.toml" && ( "$DIR/Cargo.toml" -nt "$BIN" || "$DIR/Cargo.lock" -nt "$BIN" ) ]] || find "$DIR/src" -name '*.rs' -newer "$BIN" -print -quit | grep -q .; then
+    echo "源码有更新,正在重新构建 (cargo build --release)..."
+    cargo build --release --manifest-path "$DIR/Cargo.toml"
 fi
 
 launch() {
