@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  build:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
@@ -36,10 +36,26 @@ jobs:
         run: cargo build --release --locked --target ${{ matrix.target }}
 
       - name: 重命名二进制(带平台标识,免解压)
-        shell: bash
         run: cp "target/${{ matrix.target }}/release/calc-tui" "calc-tui-${{ matrix.name }}"
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: calc-tui-${{ matrix.name }}
+          path: calc-tui-${{ matrix.name }}
+          if-no-files-found: error
+
+  publish:
+    name: 发布 Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下载全部构建产物
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
       - name: 发布二进制到 Release
         uses: softprops/action-gh-release@v2
         with:
-          files: calc-tui-*
+          files: artifacts/*/*
