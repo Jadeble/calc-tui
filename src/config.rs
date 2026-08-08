@@ -67,6 +67,11 @@ pub fn default_combos() -> Vec<Combo> {
             insert: "φ".into(),
             preset: true,
         },
+        Combo {
+            keys: "\\8".into(),
+            insert: "∞".into(),
+            preset: true,
+        },
     ]
 }
 
@@ -78,6 +83,15 @@ fn mark_presets(combos: &mut [Combo]) {
             .any(|d| d.keys == c.keys && d.insert == c.insert)
         {
             c.preset = true;
+        }
+    }
+}
+
+/// 补齐缺失的默认组合(按 insert 判重), 使新增预设(如 \8→∞)在旧配置中也能自动生效。
+fn ensure_defaults(combos: &mut Vec<Combo>) {
+    for d in default_combos() {
+        if !combos.iter().any(|c| c.insert == d.insert) {
+            combos.push(d);
         }
     }
 }
@@ -137,6 +151,7 @@ pub fn load_config() -> Config {
             cfg.combos = default_combos();
         } else {
             mark_presets(&mut cfg.combos);
+            ensure_defaults(&mut cfg.combos);
         }
         return cfg;
     }
@@ -150,6 +165,7 @@ pub fn load_config() -> Config {
             };
         }
         mark_presets(&mut list);
+        ensure_defaults(&mut list);
         return Config {
             combos: list,
             functions: Vec::new(),
@@ -178,6 +194,19 @@ mod tests {
     #[test]
     fn defaults_not_empty() {
         assert!(!default_combos().is_empty());
+    }
+
+    #[test]
+    fn ensure_defaults_appends_missing_infinity_combo() {
+        // 模拟旧配置(尚无 ∞ 组合): 补齐后应自动获得预设 \8→∞
+        let mut combos = default_combos();
+        combos.retain(|c| c.insert != "∞");
+        ensure_defaults(&mut combos);
+        assert!(combos.iter().any(|c| c.insert == "∞" && c.preset));
+        // 已存在时不应重复添加
+        let n = combos.len();
+        ensure_defaults(&mut combos);
+        assert_eq!(combos.len(), n);
     }
 
     #[test]
